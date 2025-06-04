@@ -288,6 +288,7 @@ if uploaded_file is not None:
 
     if img is None:
         st.error("Gagal memuat gambar. Pastikan file gambar valid.")
+        st.stop() # Mengganti return dengan st.stop()
     else:
         st.info("Memproses gambar...")
 
@@ -312,14 +313,14 @@ if uploaded_file is not None:
                 values = np.array(list(map(int, custom_quant_matrix_str.replace(',', ' ').split()))).reshape(block_size, block_size)
                 if np.any(values <= 0):
                     st.error("Nilai matriks kustom harus positif.")
-                    return
+                    st.stop() # Mengganti return dengan st.stop()
                 quantization_matrix = values.astype(np.float32)
             except ValueError:
                 st.error(f"Input matriks kustom tidak valid. Pastikan Anda memasukkan {block_size*block_size} angka.")
-                return
+                st.stop() # Mengganti return dengan st.stop()
             except Exception as e:
                 st.error(f"Error saat memproses matriks kustom: {e}")
-                return
+                st.stop() # Mengganti return dengan st.stop()
         
         if quantization_matrix is None:
             st.error("Matriks kuantisasi tidak dapat ditentukan.")
@@ -406,4 +407,3 @@ if uploaded_file is not None:
         plt.close(fig) # Penting untuk menutup figure agar tidak memakan memori
 else:
     st.info("Silakan unggah gambar di sidebar untuk memulai.")
-
